@@ -13,7 +13,8 @@ if (isset($_POST['submit'])) {
 
     // Executa a consulta e verifica se foi bem-sucedido
     if ($stmt->execute()) {
-        echo "Dados inseridos com sucesso!";
+        header("Location: index.html"); // Redireciona para o index
+        exit(0);
     } else {
         echo "Erro ao inserir dados: " . $stmt->error;
     }
