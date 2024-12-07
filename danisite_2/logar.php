@@ -1,25 +1,21 @@
 <?php
 if (isset($_POST['submit'])) {
-    include_once('config.php'); // Inclui a conexão com o banco de dados
+    include_once('config.php');
 
-    // Recebe os dados do formulário
     $email = $_POST['email'];
     $nome = $_POST['nome'];
     $senha = $_POST['senha'];
 
-    // Preparando a consulta SQL para evitar SQL Injection
     $stmt = $conn->prepare("INSERT INTO formulario (email, nome, senha) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $email, $nome, $senha); // O "sss" indica que são 3 parâmetros de tipo string
+    $stmt->bind_param("sss", $email, $nome, $senha);
 
-    // Executa a consulta e verifica se foi bem-sucedido
     if ($stmt->execute()) {
-        header("Location: index.html"); // Redireciona para o index
+        header("Location: index.html");
         exit(0);
     } else {
         echo "Erro ao inserir dados: " . $stmt->error;
     }
 
-    // Fecha a declaração e a conexão
     $stmt->close();
     $conn->close();
 }
