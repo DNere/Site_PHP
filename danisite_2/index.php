@@ -3,6 +3,7 @@ session_start();
 require_once 'config.php';
 include('msg.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
