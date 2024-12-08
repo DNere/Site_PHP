@@ -1,24 +1,38 @@
 <?php
+// Inicia uma nova sessão ou retoma a existente
 session_start();
+
+// Inclui o arquivo de configuração do banco de dados (contém variáveis de conexão, por exemplo)
 require_once 'config.php';
+
+// Inclui o arquivo msg.php, que pode conter funções ou mensagens para exibição
 include('msg.php');
 
+// Verifica se o método da requisição é POST (envio de formulário)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Obtém os valores enviados pelo formulário e os armazena em variáveis
     $email = $_POST["email"];
     $nome = $_POST["nome"];
     $senha = $_POST["senha"];
 
-$sql = "INSERT INTO formulario (email, nome, senha) VALUES ('$email', '$nome', '$senha')";
+    // Monta uma consulta SQL para inserir os dados no banco de dados
+    $sql = "INSERT INTO formulario (email, nome, senha) VALUES ('$email', '$nome', '$senha')";
 
+    // Executa a consulta e verifica se foi bem-sucedida
+    if ($conn->query($sql) === TRUE) {
+        // Define uma mensagem de sucesso na sessão
+        $_SESSION['message'] = "Usuário inserido com sucesso.";
+        
+        // Redireciona o usuário para a página index.php
+        header("Location: index.php");
+        exit(0); // Encerra o script após o redirecionamento
+    } else {
+        // Em caso de erro, exibe a mensagem de erro junto com a consulta
+        echo "Erro: " . $sql . "<br>" . $conn->error;
+    }
 
-if ($conn->query($sql) === TRUE) {
-    $_SESSION['message'] = "Usuário inserido com sucesso.";
-    header("Location: index.php");
-    exit(0);
-} else {
-    echo "Erro: " . $sql . "<br>" . $conn->error;
-}
-$conn->close();
+    // Fecha a conexão com o banco de dados
+    $conn->close();
 }
 ?>
 
