@@ -214,37 +214,6 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Estilizar a barra de rolagem p ficar bonitinha */
 ::-webkit-scrollbar {
     width: 7px;
@@ -259,6 +228,23 @@ body {
     background-color: #c9c7c7;
 }
 
+
+.botao-topo {
+    font-size: 25px;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 15px;
+    height: 40px;
+    z-index: 999;
+    background-color: #3c6e68;
+    color: #fff;
+    border-radius: 100px;
+    display: none;
+    text-decoration: none;
+}
 
 
 /* Media Query de 700px */
