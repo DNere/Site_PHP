@@ -1,21 +1,42 @@
 <?php 
+// Inicia uma sessão ou retoma a existente para usar variáveis de sessão
 session_start();
+
+// Inclui o arquivo de configuração do banco de dados, onde está a conexão
 require_once 'config.php';
+
+// Inclui o arquivo "msg.php", que pode conter funções auxiliares ou mensagens a serem exibidas
 include('msg.php');
 
+// Verifica se o método da requisição HTTP é POST (envio de formulário)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Obtém o valor do campo "email" enviado pelo formulário
     $email = $_POST["email"];
 
+    // Prepara a consulta SQL para deletar um registro da tabela "formulario" com o email fornecido
     $stmt = $conn->prepare("DELETE FROM formulario WHERE email = ?");
+
+    // Associa o parâmetro da consulta SQL à variável $email
+    // "s" indica que o tipo do parâmetro é string
     $stmt->bind_param("s", $email);
+
+    // Executa a consulta preparada e verifica se foi bem-sucedida
     if ($stmt->execute()) {
+        // Armazena uma mensagem de sucesso na variável de sessão
         $_SESSION['message'] = "Usuário excluído com sucesso.";
+        
+        // Redireciona o usuário para a página inicial (index.php)
         header("Location: index.php");
-        exit(0);
+        exit(0); // Encerra o script após o redirecionamento
     } else {
+        // Em caso de erro na execução, exibe a mensagem de erro
         echo "Erro ao deletar: " . $stmt->error;
     }
+
+    // Fecha o statement preparado
     $stmt->close();
+
+    // Fecha a conexão com o banco de dados
     $conn->close();
 }
 ?>
