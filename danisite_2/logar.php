@@ -61,7 +61,7 @@ if (isset($_POST['submit'])) {
         <p class="corppp">Já possui uma conta? <b class="corppp"><a href="temconta.html">Clique aqui!</a></b></p>
     </section>
 
-    <article class="article"><br></article>
+        <article class="article"><br></article>
 
     <footer class="footer">
         <br>
