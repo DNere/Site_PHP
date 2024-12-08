@@ -1,8 +1,9 @@
 <?php
-session_start();
-require_once 'config.php';
-include('msg.php');
+session_start(); // Inicia uma nova sessão ou retoma uma sessão existente
+require_once 'config.php'; // Inclui o arquivo de configuração do banco de dados
+include('msg.php'); // Inclui o arquivo de mensagens ou funcionalidades adicionais
 ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
