@@ -1,28 +1,49 @@
 <?php 
+// Inicia uma nova sessão ou retoma uma sessão existente
 session_start();
+
+// Inclui o arquivo de configuração do banco de dados
 require_once 'config.php';
+
+// Inclui o arquivo de mensagens
 include('msg.php');
 
+// Verifica se foi passado um parâmetro 'email' pela URL (método GET)
 if (isset($_GET['email'])) {
+    // Armazena o email enviado via GET na variável de sessão (A variável `$_SESSION['email_veio']` será usada para identificar qual registro no banco de dados deve ser atualizado.)
     $_SESSION['email_veio'] = $_GET['email'];
 }
 
+// Verifica se o formulário foi enviado pelo método POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = $_POST["email"];
-    $nome = $_POST["nome"];
-    $senha = $_POST["senha"];
+    // Captura os valores enviados pelo formulário
+    $email = $_POST["email"]; // Novo email informado pelo usuário
+    $nome = $_POST["nome"];   // Novo nome informado pelo usuário
+    $senha = $_POST["senha"]; // Nova senha informada pelo usuário
+
+    // Recupera o email original armazenado na variável de sessão
     $email_veio = $_SESSION['email_veio'];
+
+    // Cria a consulta SQL para atualizar os dados na tabela (Atualiza os campos `email`, `nome` e `senha` onde o email original (recebido pelo GET) corresponde a `$email_veio`.)
     $sql = "UPDATE formulario SET email = '$email', nome = '$nome', senha = '$senha' WHERE email = '$email_veio'";
+
+    // Executa a consulta no banco de dados
     if ($conn->query($sql) === TRUE) {
+        // Define uma mensagem de sucesso na sessão
         $_SESSION['message'] = "Usuário atualizado com sucesso.";
+        // Redireciona para a página `index.php` após a atualização
         header("Location: index.php");
-        exit(0);
+        exit(0); // Encerra a execução do script
     } else {
+        // Exibe uma mensagem de erro se a consulta falhar
         echo "Erro: " . $sql . "<br>" . $conn->error;
     }
+
+    // Fecha a conexão com o banco de dados
     $conn->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
