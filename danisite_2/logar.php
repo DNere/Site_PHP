@@ -1,22 +1,34 @@
 <?php
+// Verifica se o formulário foi enviado (o botão "submit" foi pressionado)
 if (isset($_POST['submit'])) {
+    // Inclui o arquivo de configuração do banco de dados
     include_once('config.php');
 
-    $email = $_POST['email'];
-    $nome = $_POST['nome'];
-    $senha = $_POST['senha'];
+    // Captura os dados enviados pelo formulário através do método POST
+    $email = $_POST['email']; // Recebe o campo "email" do formulário
+    $nome = $_POST['nome'];   // Recebe o campo "nome" do formulário
+    $senha = $_POST['senha']; // Recebe o campo "senha" do formulário
 
+    // Prepara uma consulta SQL para inserir os dados na tabela "formulario"
     $stmt = $conn->prepare("INSERT INTO formulario (email, nome, senha) VALUES (?, ?, ?)");
+
+    // Associa os parâmetros da consulta aos valores das variáveis (bind_param vincula os valores às posições na consulta SQL, e os "sss" indica que os três parâmetros são strings:)
     $stmt->bind_param("sss", $email, $nome, $senha);
 
+    // Executa a consulta SQL e verifica se foi bem-sucedida
     if ($stmt->execute()) {
+        // Redireciona o usuário para a página "index.html" em caso de sucesso
         header("Location: index.html");
-        exit(0);
+        exit(0); // Encerra o script após o redirecionamento
     } else {
+        // Exibe uma mensagem de erro em caso de falha ao executar a consulta
         echo "Erro ao inserir dados: " . $stmt->error;
     }
 
+    // Fecha o statement preparado para liberar recursos
     $stmt->close();
+
+    // Fecha a conexão com o banco de dados
     $conn->close();
 }
 ?>
