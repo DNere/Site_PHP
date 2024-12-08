@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $conn->prepare("DELETE FROM formulario WHERE email = ?");
 
     // Associa o parâmetro da consulta SQL à variável $email
-    // "s" indica que o tipo do parâmetro é string
+    // "s" indica que o tipo do parâmetro é string (texto)
     $stmt->bind_param("s", $email);
 
     // Executa a consulta preparada e verifica se foi bem-sucedida
